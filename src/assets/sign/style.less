@@ -1,0 +1,113 @@
+:root {
+    --color-silver: #f0f2f5;
+    --color-primary: #49C706;
+
+    --color-second: #2b62c7;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    background-color: var(--color-silver);
+}
+
+.body-sign {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    .content {
+        width: 80%;
+        height: 80%;
+        display: flex;
+        padding: 10px;
+
+        .information,
+        .form-login,
+        .form-sign-up {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .form-login form,
+        .form-sign-up form {
+            padding: 10px 20px;
+            background-color: white;
+            width: 60%;
+            border-radius: 5px;
+        }
+
+        .form-login .form-group,
+        .form-sign-up .form-group {
+            padding: 5px 0;
+            margin: 5px 0;
+        }
+
+        .form-login .form-group input,
+        .form-sign-up .form-group input {
+            padding: 15px 10px;
+            width: calc(100% - 20px);
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+        }
+
+        .form-sign-up .form-group label {
+            font-size: 18px;
+        }
+
+        .form-login .form-group input:focus {
+            border-color: #49C706;
+        }
+
+        .form-login .btn,
+        .form-sign-up .btn {
+            padding: 12px 20px;
+            border: none;
+            width: calc(100% + 5px);
+            border-radius: 5px;
+            background-color: var(--color-primary);
+            color: white;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        a.btn {
+            display: block;
+            width: fit-content !important;
+            text-decoration: none;
+            margin: auto;
+            background-color: var(--color-second) !important;
+        }
+
+        .form-login .btn.btn-submit-login:active {
+            background-color: #49C706;
+        }
+
+        .form-sign-up .form-group .form-sex {
+            display: flex;
+            justify-content: space-evenly;
+
+            .option {
+                display: flex;
+                font-size: 18px;
+            }
+        }
+    }
+
+    .title {
+        text-transform: uppercase;
+    }
+}
+
+.txt-center {
+    text-align: center;
+}
