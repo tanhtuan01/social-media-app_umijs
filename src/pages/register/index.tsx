@@ -30,29 +30,35 @@ export default function RegisterHomePage() {
 
                 <div className="form-sign-up">
                     <form action="">
+
+                        <div className="form-group">
+                            <label htmlFor="">Fullname</label>
+                            <input type="text" name="" id="" />
+                        </div>
+
                         <div className="form-group">
                             <label htmlFor="">Phone or Email</label>
                             <input type="text" name="" id="" value={username} onChange={event => setUsername(event.target.value)} />
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="">Fullname</label>
-                            <input type="password" name="" id="" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="">Fullname</label>
-                            <input type="password" name="" id="" />
+                            <label htmlFor="">Address</label>
+                            <input type="text" name="" id="" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="">Sex</label>
                             <div className="form-sex">
                                 <div className="option">
-                                    <input type="radio" name="sex" value={sex} /><span>Male</span>
+                                    <label htmlFor="radioSexMale">Male</label>
+                                    <input type="radio" name="sex" value='male' id="radioSexMale" />
                                 </div>
                                 <div className="option">
-                                    <input type="radio" name="sex" value={sex} /><span>Female</span>
+                                    <label htmlFor="radioSexFemale">Female</label>
+                                    <input type="radio" name="sex" value='female' id="radioSexFemale" />
                                 </div>
                                 <div className="option">
-                                    <input type="radio" name="sex" value={sex} /><span>Other</span>
+                                    <label htmlFor="radioSexOther">Other</label>
+                                    <input type="radio" name="sex" value='other' id="radioSexOther" />
                                 </div>
                             </div>
                         </div>

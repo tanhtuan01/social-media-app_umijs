@@ -1,8 +1,8 @@
 :root {
     --color-silver: #f0f2f5;
     --color-primary: #49C706;
-
     --color-second: #2b62c7;
+    --color-border-silver: #ccd0d5;
 }
 
 body {
@@ -40,19 +40,19 @@ body {
         .form-sign-up form {
             padding: 10px 20px;
             background-color: white;
-            width: 60%;
+            width: 50%;
             border-radius: 5px;
         }
 
         .form-login .form-group,
         .form-sign-up .form-group {
             padding: 5px 0;
-            margin: 5px 0;
+            margin: 2px 0;
         }
 
         .form-login .form-group input,
         .form-sign-up .form-group input {
-            padding: 15px 10px;
+            padding: 10px;
             width: calc(100% - 20px);
             border-radius: 5px;
 
@@ -60,11 +60,19 @@ body {
         }
 
         .form-sign-up .form-group label {
-            font-size: 18px;
+            display: block;
+            padding: 5px 0;
+            font-size: 16px;
         }
 
-        .form-login .form-group input:focus {
-            border-color: #49C706;
+        .form-login .form-group input:focus,
+        .form-sign-up .form-group input:focus {
+            border: 1px solid #49C706 !important;
+        }
+
+        hr {
+            margin: 15px 0;
+            border-color: var(--color-silver);
         }
 
         .form-login .btn,
@@ -94,11 +102,33 @@ body {
 
         .form-sign-up .form-group .form-sex {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
 
             .option {
+                margin: 0 5px;
                 display: flex;
                 font-size: 18px;
+                padding: 5px;
+                border: 1px solid var(--color-border-silver);
+                border-radius: 5px;
+                justify-content: space-evenly;
+                width: 100%;
+
+                label {
+                    display: block;
+                    width: 88%;
+                    text-align: center;
+                }
+
+                input {
+                    width: 12%;
+                    display: block;
+                }
+            }
+
+            .option:first-child,
+            .option:last-child {
+                margin: 0;
             }
         }
     }
