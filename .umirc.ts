@@ -7,7 +7,8 @@ export default defineConfig({
     { path: "/register", component: "@/pages/register", layout: false, title: "Register" },
     { path: "/login", component: "@/pages/login", layout: false },
     { path: "/profile", component: "@/pages/profile" },
-    { path: "/home", redirect: "/" }
+    { path: "/home", redirect: "/" },
+    { path: "/todo", component: "@/pages/todo" },
   ],
   npmClient: 'pnpm',
 });

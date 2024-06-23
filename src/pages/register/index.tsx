@@ -1,7 +1,14 @@
 import { useState } from "react";
 import '../../assets/base.less'
 import '../../assets/sign/style.less'
+
+import { apiUser } from "@/api/user";
+// const text = { apiUser }
+
+
 export default function RegisterHomePage() {
+    const userApi = apiUser();
+    const text = userApi.text;
 
     const currentYear = new Date().getFullYear();
 
@@ -15,8 +22,6 @@ export default function RegisterHomePage() {
     const [showDayOptions, setShowDayOptions] = useState(false);
     const [showMonthOptions, setShowMonthOptions] = useState(false);
     const [showYearOptions, setShowYearOptions] = useState(false);
-
-
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
     const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -41,7 +46,7 @@ export default function RegisterHomePage() {
     };
 
     let isValidDate = false;
-
+    let textData = userApi.text();
     function submitLogin() {
         console.log('Form submitted');
         console.log(`Selected Day: ${day}`);
@@ -49,6 +54,8 @@ export default function RegisterHomePage() {
         console.log(`Selected Year: ${year}`);
         // console.log(`Username: ${username}, Password: ${password}`);
 
+
+        console.log(`text: `, JSON.stringify(text()));
         // check date
         if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
 
@@ -108,7 +115,12 @@ export default function RegisterHomePage() {
     }
     return (
         <div className='body-sign'>
-
+            {textData.map((item, index) => (
+                <div key={index}>
+                    <p>Text 1: {item.txt}</p>
+                    <p>Text 2: {item.txt2}</p>
+                </div>
+            ))}
             <div className='content'>
 
                 <div className="information">
