@@ -47,5 +47,30 @@ export const apiTodo = () => {
             return { error: 'Eror' };
         }
     }
-    return { create, list };
+
+    const deleteTodo = async (todoid: string) => {
+
+        try {
+            const response = await fetch(`http://localhost:3000/todo/soft-delete/${todoid}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            if (response.ok) {
+                return response.json
+            }
+            else if (response.status === 500) {
+                return { error: 'Error' };
+            } else {
+                const error = await response.json();
+                return { error };
+            }
+        } catch (error) {
+            return { error };
+        }
+
+    }
+    return { create, list, deleteTodo };
 }

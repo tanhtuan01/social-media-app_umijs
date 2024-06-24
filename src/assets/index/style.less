@@ -1,12 +1,191 @@
-.form-create-post {
+.row {
 
-    width: 80%;
+    .content {
 
-    form {
+        width: 100%;
+        display: flex;
 
-        textarea {
-            padding: 10px;
-            width: 50%;
+        .post {
+            width: 70%;
+
+
+            .other-post {
+                margin-top: 20px;
+
+                .title {
+                    padding: 10px 0;
+                }
+
+                .list-post {
+
+                    .post-item {
+                        border: 1px solid #ccc;
+                        width: 80%;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        margin: 10px 0;
+
+                        pre {
+                            padding: 10px 0;
+                            font-size: 14px;
+                        }
+
+                        .author-date {
+                            display: flex;
+                            justify-content: space-between;
+
+                            .author {
+                                font-weight: bold;
+                            }
+                        }
+
+                        .post-tag {
+                            margin-bottom: 20px;
+                        }
+
+                        .post-action {
+
+                            a {
+                                display: inline-block;
+
+                                margin: 5px;
+                                padding: 5px 15px;
+                                border-radius: 3px;
+                                cursor: pointer;
+                                transition: all .3s ease;
+                            }
+
+                            a:hover {
+                                background-color: #ccc;
+                            }
+                        }
+
+                        .post-list-comment {
+                            min-height: 200px;
+                            overflow: auto;
+                            height: 200px;
+
+                            .user-content {
+                                display: flex;
+                                padding: 5px 0;
+
+                                .user {
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+
+                        .post-list-comment.no-cmt {
+                            height: 0;
+                        }
+
+                        .post-comment {
+                            margin-top: 10px;
+
+                            form {
+                                position: relative;
+
+
+                                textarea {
+                                    width: 100%;
+                                    padding: 5px 10px;
+                                    border-radius: 5px;
+                                    outline: none;
+                                    border: 1px solid #ccc;
+                                    position: relative;
+                                }
+
+                                button {
+                                    position: absolute;
+                                    right: 0;
+                                    top: 0;
+                                    bottom: 5px;
+                                    padding: 5px 10px;
+                                    border-radius: 0 5px 5px 0;
+                                    outline: none;
+                                    border: 1px solid #ccc;
+                                    cursor: pointer;
+                                }
+
+                                button:hover {
+                                    background-color: #c4c4c4;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        .todo-list {
+            width: 30%;
+
+
+            .list-todo {
+
+
+                .item {
+                    margin: 5px 0;
+                    padding: 5px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+
+                    .name {
+                        font-weight: bold;
+                        font-size: 20px;
+                        padding: 5px 0;
+                    }
+
+                    .button {
+                        padding: 10px 0;
+
+                        .btn {
+                            padding: 5px 15px;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .form-create-post {
+
+            width: 70%;
+
+            form {
+
+                input {
+                    padding: 5px 10px;
+                    width: 80%;
+                    border-radius: 5px;
+                    outline: none;
+                    border: 1px solid var(--color-primary);
+                }
+
+                textarea {
+                    padding: 10px;
+                    width: 80%;
+                    border-radius: 5px;
+                    outline: none;
+                    border: 1px solid var(--color-primary);
+                }
+
+                .form-group {
+                    margin: 5px 0;
+
+                    label {
+                        display: block;
+                    }
+                }
+
+                button {
+                    width: fit-content;
+                    padding: 5px 20px;
+                    text-transform: none;
+                }
+            }
         }
     }
 }

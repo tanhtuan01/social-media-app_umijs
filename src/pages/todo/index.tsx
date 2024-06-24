@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../assets/base.less'
 import '../../assets/todo/style.less'
 
@@ -13,7 +13,7 @@ import ListToDo from './list';
 
 
 export default function ToDoHomePage() {
-
+    checkTokenFirst();
     const todoApi = apiTodo();
     const create = todoApi.create;
 
@@ -28,6 +28,7 @@ export default function ToDoHomePage() {
     const [twoDateValid, setTwoDateValid] = useState(false);
 
     function submitCreateTodo() {
+
         console.log('Form submitted');
         if (!twoDateValid) {
             toast.error('Form is not valid');
@@ -82,7 +83,7 @@ export default function ToDoHomePage() {
 
     useEffect(() => {
         // checkTokenFirst()
-        checkTokenFirst();
+
         if (!taskStartTime && taskStartTimeClick && new Date(taskStartTime)) {
             toast.error('Task start time is not valid');
             setTwoDateValid(false)

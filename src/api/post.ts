@@ -1,11 +1,14 @@
 export const apiPost = () => {
 
+    const token = localStorage.getItem('token');
+
     const create = async (post: object) => {
         try {
             const response = await fetch('http://localhost:3000/post/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(post),
             })
@@ -52,7 +55,28 @@ export const apiPost = () => {
         }
     }
 
-    return { create, userPost }
+
+    const getAll = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/post/list', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (response.ok) {
+                return await response.json()
+            } else if (response.status === 500) {
+                return { error: 'Internal Server Error' }
+            } else {
+                return { error: 'Error when get list post' }
+            }
+        } catch (error) {
+            return { error }
+        }
+    }
+    return { create, userPost, getAll }
 
 
 }

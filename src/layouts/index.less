@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--color-silver);
+  background-color: var(--color-primary);
   padding: 5px;
   position: fixed;
   left: 0;
@@ -40,7 +40,7 @@
               position: relative;
 
               input {
-                border: 1px solid #ccc;
+                border: 1px solid var(--color-primary);
                 outline: none;
                 width: 95%;
                 padding: 8px 15px;
@@ -55,7 +55,7 @@
                 right: 0;
                 bottom: 0;
                 border-radius: 0 10px 10px 0;
-                border: 1px solid #ccc;
+                border: 1px solid var(--color-primary);
                 background-color: var(--color-second);
                 font-weight: bold;
                 color: white;
@@ -79,11 +79,14 @@
 
             li {
               padding: 10px 30px;
+              text-align: center;
+              color: white;
 
               a {
                 display: block;
                 text-align: center;
                 font-size: 20px !important;
+                color: white;
               }
 
               p.item-name {
@@ -126,12 +129,12 @@
   display: flex;
 
   .post-blog {
-    width: 70%;
+    width: 60%;
     padding: 10px;
   }
 
   .todo {
-    width: 30%;
+    width: 40%;
     padding: 10px;
   }
 }

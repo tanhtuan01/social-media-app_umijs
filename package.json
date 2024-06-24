@@ -12,8 +12,8 @@
     "@ant-design/icons": "^5.3.7",
     "date-fns": "^3.6.0",
     "react-toastify": "^10.0.5",
-    "umi": "^4.2.13",
-    "umi-request": "^1.4.0"
+    "umi": "^4.0.51",
+    "umi-request": "^1.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.33",
