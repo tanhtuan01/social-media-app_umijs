@@ -1,9 +1,10 @@
 import { Link, Outlet } from 'umi';
 import '../assets/base.less'
 import './index.less';
-import { HomeOutlined, SearchOutlined, MessageOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { HomeOutlined, SearchOutlined, MessageOutlined, SettingOutlined, UnorderedListOutlined, LogoutOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import DocsPage from '../pages/docs';
+import ListToDo from '@/pages/todo/list';
 
 
 export default function Layout() {
@@ -63,6 +64,8 @@ export default function Layout() {
                       Todo List
                     </p>
                   </li>
+
+
                   <li className='item-settings'>
                     <Link to="/" onClick={handleSettingsClick}>
                       <SettingOutlined />
@@ -85,6 +88,15 @@ export default function Layout() {
                     )}
                   </li>
 
+                  <li>
+                    <Link to="/logout">
+                      <LogoutOutlined />
+                    </Link>
+                    <p className='item-name'>
+                      Logout
+                    </p>
+                  </li>
+
                 </ul>
               </div>
             </div>
@@ -94,14 +106,7 @@ export default function Layout() {
       </div>
 
       <div className="body">
-        <div className="row">
-          <div className="post-blog">
-            <Outlet />
-          </div>
-          <div className="todo">
-            <DocsPage />
-          </div>
-        </div>
+        <Outlet />
       </div>
 
       <div className='footer'>

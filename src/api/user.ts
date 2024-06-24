@@ -1,8 +1,9 @@
 export const apiUser = () => {
 
     const create = async (user: object) => {
+        console.log('create user', user);
         try {
-            const response = await fetch('/api/user', {
+            const response = await fetch('http://localhost:3000/user/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -10,15 +11,45 @@ export const apiUser = () => {
                 body: JSON.stringify(user),
             });
 
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 500) {
+                const error = await response.json();
+                return { error: 'Đã có lỗi xảy ra khi tạo người dùng: ' + error.message };
+            } else {
+                const error = await response.json();
+                return { error: 'Đã có lỗi xảy ra khi tạo người dùng: ' + error.message };
+            }
+        } catch (error) {
+            return { error: 'Đã có lỗi xảy ra khi tạo người dùng: ' + error };
+
+        }
+    };
+
+    const getUser = async (emailOrPhone: string, password: string) => {
+        try {
+            const response = await fetch(`http://localhost:3000/user/get/${emailOrPhone}/${password}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            })
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.message);
+                return { error: 'Lỗi đăng nhập' + error.message };
             }
+            if (response.status === 500) {
+                const error = await response.json();
+                return { error: 'Lỗi đăng nhập' + error.message };
+            };
+            if (response.ok) {
+                return await response.json();
+            }
+        }
 
-            return await response.json();
-        } catch (error) {
-            console.error('Error creating user:', error);
-            throw error;
+        catch (error) {
+            return { error: 'Lỗi đăng nhập' + error }
         }
     }
 
@@ -35,7 +66,7 @@ export const apiUser = () => {
         ]
     }
 
-    return { create, text }
+    return { create, text, getUser };
 
 
 }

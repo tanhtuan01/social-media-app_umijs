@@ -1,5 +1,7 @@
 import { defineConfig } from "umi";
 
+
+
 export default defineConfig({
   routes: [
     { path: "/", component: "index" },
@@ -9,6 +11,7 @@ export default defineConfig({
     { path: "/profile", component: "@/pages/profile" },
     { path: "/home", redirect: "/" },
     { path: "/todo", component: "@/pages/todo" },
+    { path: "/logout", component: "@/pages/logout" },
   ],
   npmClient: 'pnpm',
 });

@@ -4,17 +4,23 @@ import '../../assets/sign/style.less'
 
 import { apiUser } from "@/api/user";
 // const text = { apiUser }
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import { format } from 'date-fns';
 
 export default function RegisterHomePage() {
     const userApi = apiUser();
     const text = userApi.text;
+    const create = userApi.create
 
     const currentYear = new Date().getFullYear();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [sex, setSex] = useState('');
+    const [emailOrPhone, setEmailOrPhone] = useState('');
+    const [rePassword, setRePassword] = useState('');
 
     const [day, setDay] = useState(1);
     const [month, setMonth] = useState(1);
@@ -54,11 +60,43 @@ export default function RegisterHomePage() {
         console.log(`Selected Year: ${year}`);
         // console.log(`Username: ${username}, Password: ${password}`);
 
-
         console.log(`text: `, JSON.stringify(text()));
         // check date
-        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+        checkDate()
 
+        const userDTO = {
+            name: username,
+            emailOrPhone: emailOrPhone,
+            sex: sex,
+            password: password,
+            dateOfBirth: formatDate(`${year}-${month}-${day}`),
+        }
+
+        createUser(userDTO)
+
+    }
+
+    async function createUser(userDTO: Object) {
+        const result = await create(userDTO);
+        if (result.error) {
+            toast.error('User registration failed');
+        } else {
+            console.log('Người dùng được tạo:', result);
+            toast.success('User registered successfully');
+            setUsername('');
+            setPassword('');
+            setRePassword('');
+            setEmailOrPhone('')
+            setSex('')
+        }
+    }
+
+    const formatDate = (date: string) => {
+        return format(date, 'yyyy-MM-dd')
+    }
+
+    function checkDate() {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
             console.log('This is a leap year');
             switch (month) {
                 case 2:
@@ -70,9 +108,10 @@ export default function RegisterHomePage() {
                 case 11:
                     isValidDate = (day > 30) ? false : true
                     break;
+                default:
+                    return
             }
         } else {
-
             console.log('This is not a leap year');
             switch (month) {
                 case 2:
@@ -84,13 +123,13 @@ export default function RegisterHomePage() {
                 case 11:
                     isValidDate = (day > 30) ? false : true
                     break;
+                default:
+                    return
             }
         }
-
-        if (isValidDate) {
-            console.log('Date is valid');
-        } else {
-            console.log('Date is not valid');
+        if (!isValidDate) {
+            toast.error('Form is not valid');
+            return
         }
     }
 
@@ -110,11 +149,54 @@ export default function RegisterHomePage() {
         setShowYearOptions(false)
     }
 
-    const handleClickInput = () => {
+    const handleInputPasswordClick = () => {
+        // if (password.length < 8 && rePassword.length < 8) {
+        //     toast.error('Password must be at least 8 characters long');
+        // }
+    }
+
+    let inputPasswordValid = false
+    const [txtPasswordError, setTxtPasswordError] = useState('')
+    let inputRePasswordValid = false
+    const [txtRePasswordError, setTxtRePasswordError] = useState('')
+
+    const handleInputPasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const password = event.target.value
+
+        if (password.length >= 8) {
+            inputPasswordValid = true
+            setPassword(password)
+            setTxtPasswordError('')
+        } else if (password.length < 8) {
+            inputPasswordValid = false
+            setTxtPasswordError('Password must be at least 8 characters long')
+        } else {
+            inputPasswordValid = false
+            inputRePasswordValid = false
+            setTxtRePasswordError('Password not match')
+            setTxtPasswordError('Password not match')
+        }
+    }
+
+
+
+    const handleInputRePasswordValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const repassword = event.target.value
+
+        if (repassword !== password) {
+            inputRePasswordValid = false
+            setTxtRePasswordError('Password not match')
+            setTxtPasswordError('Password not match')
+        } else {
+            inputRePasswordValid = true
+            setTxtRePasswordError('')
+            setTxtPasswordError('')
+        }
 
     }
     return (
         <div className='body-sign'>
+            <ToastContainer />
             {textData.map((item, index) => (
                 <div key={index}>
                     <p>Text 1: {item.txt}</p>
@@ -142,21 +224,23 @@ export default function RegisterHomePage() {
                         </p>
                         <div className="form-group">
                             <label htmlFor="">Fullname</label>
-                            <input type="text" name="" id="" placeholder="Enter your full name" />
+                            <input type="text" name="" id="" placeholder="Enter your full name" value={username} onChange={(event) => { setUsername(event.target.value) }} />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="">Phone or Email</label>
-                            <input type="text" name="" id="" placeholder="Enter your phone number or email" value={username} onChange={event => setUsername(event.target.value)} />
+                            <input type="text" name="" id="" placeholder="Enter your phone number or email" value={emailOrPhone} onChange={event => setEmailOrPhone(event.target.value)} />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="">Password</label>
-                            <input type="text" name="" id="" placeholder="Enter your password" />
+                            <input type="password" name="" id="" placeholder="Enter your password" onClick={handleInputPasswordClick} onChange={(event) => { handleInputPasswordValue(event) }} />
+                            {!inputPasswordValid && <small className="txt-error">{txtPasswordError}</small>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="">Repassword</label>
-                            <input type="text" name="" id="" placeholder="Enter re-password" onClick={handleClickInput} />
+                            <input type="password" name="" id="" placeholder="Enter re-password" onClick={handleInputPasswordClick} onChange={(event) => { handleInputRePasswordValue(event) }} />
+                            {!inputRePasswordValid && <small className="txt-error">{txtRePasswordError}</small>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="">Date of birth (day month year)</label>
@@ -211,15 +295,15 @@ export default function RegisterHomePage() {
                             <div className="form-sex">
                                 <div className="option">
                                     <label htmlFor="radioSexMale">Male</label>
-                                    <input type="radio" name="sex" value='male' id="radioSexMale" />
+                                    <input type="radio" name="sex" value='male' id="radioSexMale" onChange={(event) => { setSex(event.target.value) }} />
                                 </div>
                                 <div className="option">
                                     <label htmlFor="radioSexFemale">Female</label>
-                                    <input type="radio" name="sex" value='female' id="radioSexFemale" />
+                                    <input type="radio" name="sex" value='female' id="radioSexFemale" onChange={(event) => { setSex(event.target.value) }} />
                                 </div>
                                 <div className="option">
                                     <label htmlFor="radioSexOther">Other</label>
-                                    <input type="radio" name="sex" value='other' id="radioSexOther" />
+                                    <input type="radio" name="sex" value='other' id="radioSexOther" onChange={(event) => { setSex(event.target.value) }} />
                                 </div>
                             </div>
                         </div>
