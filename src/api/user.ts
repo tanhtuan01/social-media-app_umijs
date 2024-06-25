@@ -1,5 +1,7 @@
 export const apiUser = () => {
 
+    const token = localStorage.getItem('token');
+
     const create = async (user: object) => {
         console.log('create user', user);
         try {
@@ -53,20 +55,106 @@ export const apiUser = () => {
         }
     }
 
-    const text = () => {
-        return [
-            {
-                txt: 'API User TEXT',
-                txt2: 'API User TEXT2'
-            },
-            {
-                txt: 'API User TEXT3',
-                txt2: 'API User TEXT4'
-            },
-        ]
+    const getUserInfo = async () => {
+
+        try {
+            const response = await fetch('http://localhost:3000/user/info', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 500) {
+                const error = await response.json();
+                return { error: 'Error when get user info' + error }
+            } else {
+                const error = await response.json();
+                return { error: 'Error when get user info' + error }
+            }
+        } catch (error) {
+            return { error }
+        }
+
     }
 
-    return { create, text, getUser };
+    const updateUser = async (user: object) => {
+
+        try {
+            const response = await fetch('http://localhost:3000/user/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(user),
+            })
+            console.log(response)
+            if (response.ok) {
+                return await response.json();
+            } else if (!response.ok) {
+                return { error: 'Error when update user info' }
+            } else if (response.status == 500) {
+                return { error: 'Error when update user info' }
+            } else {
+                return { error: 'Error when update user info' }
+            }
+        } catch (error) {
+            return { error }
+        }
+
+    }
+
+    const checkPassword = async (password: string) => {
+        try {
+            const response = await fetch(`http://localhost:3000/user/checkpassword`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ password }),
+            })
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 500) {
+                const error = await response.json();
+                return { error: 'Error when check password ' + error }
+            } else {
+                const error = await response.json();
+                return { error: 'Error when check password ' + error }
+            }
+        } catch (error) {
+            return { error }
+        }
+    }
+
+    const updatePassword = async (password: string) => {
+        console.log(JSON.stringify({ password }))
+        try {
+            const response = await fetch(`http://localhost:3000/user/updatepassword`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ password }),
+            })
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 500) {
+                return { error: 'Error when update password' }
+            } else {
+                return { error: 'Error when update password' }
+            }
+        } catch (error) {
+            return { error }
+        }
+    }
+
+    return { create, getUser, getUserInfo, updateUser, checkPassword, updatePassword };
 
 
 }

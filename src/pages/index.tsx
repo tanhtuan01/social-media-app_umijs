@@ -5,20 +5,29 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import { apiComment } from "@/api/comment";
+
 import { apiPost } from "@/api/post";
 import { CloudOutlined, MessageOutlined, SendOutlined } from "@ant-design/icons";
+import { format } from "date-fns";
+import { Footer } from "./footer";
 
 export default function HomePage() {
   checkTokenFirst();
 
+  const commentAPI = apiComment();
+  const createComment = commentAPI.create
+
   const postAPI = apiPost();
   const create = postAPI.create
   const list = postAPI.getAll
+  const like = postAPI.likePost
 
   const [content, setContent] = useState('')
   const [tag, setTag] = useState('')
   const [listPost, setListPost] = useState([])
   const [commentsByPost, setCommentsByPost] = useState({});
+  const [refreshAllPost, setRefreshAllPost] = useState(false)
 
   function submit() {
 
@@ -35,6 +44,10 @@ export default function HomePage() {
     }
   }
 
+  const formatDate = (date: string) => {
+    return format(date, 'yyyy-MM-dd')
+  }
+
   useEffect(() => {
     getAllPost()
   }, [])
@@ -47,6 +60,10 @@ export default function HomePage() {
 
     } else {
       toast.success('Create post successfully')
+      setRefreshAllPost(true)
+      setContent('')
+      setTag('')
+      getAllPost()
     }
 
   }
@@ -57,14 +74,52 @@ export default function HomePage() {
     setListPost(data)
   }
 
-  const handleComment = (postId) => {
+  async function commentToPost(comment: object) {
+    const data = await createComment(comment)
+    if (typeof data === 'object' && !data.error && data !== null) {
+      toast.success('Comment successfully')
+      getAllPost()
+    } else {
+      toast.error('Comment failed')
+    }
+  }
+
+  const handleLike = async (postId: string) => {
+    const likeDTO = {
+      postId: postId,
+      isLiked: true
+    }
+
+    const data = await like(likeDTO)
+    console.log(likeDTO)
+    if (typeof data === 'object' && !data.error && data !== null) {
+      toast.success('Liked post successfully')
+      getAllPost()
+    } else {
+      toast.error('Like failed')
+    }
+
+  }
+
+
+
+  const handleComment = (postId: string) => {
     if (commentsByPost[postId]?.trim() !== '') {
       // Gửi dữ liệu bình luận lên server hoặc thực hiện các tác vụ khác
-      console.log(`Bình luận cho bài viết có id ${postId}: ${commentsByPost[postId]}`);
+      //console.log(`Bình luận cho bài viết có id ${postId}: ${commentsByPost[postId]}`);
       setCommentsByPost((prevComments) => ({
         ...prevComments,
         [postId]: '',
       })); // Đặt lại nội dung bình luận về rỗng
+
+      const commentContent = `${commentsByPost[postId]}`
+      const comment = {
+        content: commentContent,
+        postId: postId,
+      };
+
+      commentToPost(comment)
+      // console.log('Comment:', comment);
     }
   };
 
@@ -77,7 +132,7 @@ export default function HomePage() {
         <div className="post">
           <div className="form-create-post">
             <form action="">
-              <h2>Add new post</h2>
+              <h2>Add a new post</h2>
               <div className="form-group">
                 <label htmlFor=""></label>
                 <textarea cols={20} rows={5} placeholder="Write your felling..." value={content} onChange={event => setContent(event.target.value)} />
@@ -90,7 +145,7 @@ export default function HomePage() {
             </form>
           </div>
           <div className="other-post">
-            <h2 className="title">All Post</h2>
+            <h2 className="title">All Posts</h2>
 
             {listPost.length > 0 ? (
               listPost.map((p) => (
@@ -100,7 +155,7 @@ export default function HomePage() {
                       <div className="author-date">
                         <div className="author">{p.name}</div>
                         <div className="post-date">
-                          <small>2022-22-22</small>
+                          <small>{formatDate(p.createdAt)}</small>
                         </div>
                       </div>
                       <div className="post-content">
@@ -113,31 +168,43 @@ export default function HomePage() {
                       </div>
                       <hr />
                       <div className="post-action">
-                        <a>
-                          <CloudOutlined />
+
+                        <a onClick={() => { handleLike(p._id) }}>
+                          <div className="icon"><CloudOutlined /></div>
+                          <p>{p.totalLike}</p>
                         </a>
                         <a>
-                          <MessageOutlined />
+                          <div className="icon"><MessageOutlined /></div>
+                          <p>{p.comment.length}</p>
                         </a>
                       </div>
                       <hr />
-                      <div className="post-list-comment">
+                      {p.comment.length > 0 ? (
+                        <div className="post-list-comment">
 
 
-                        <div className="comment-item">
-                          <div className="user-content">
-                            <p className="user">Author:</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, laboriosam.</p>
-                          </div>
-                          <p>
-                            <small>2222</small>
-                          </p>
+                          {p.comment.map((comment, index) => (
+
+                            <div key={index} className="comment-item" >
+
+                              <div className="user-content">
+                                <p className="user">{comment.userName}: &nbsp;</p>
+                                <p>{comment.content}</p>
+                              </div>
+                              <p>
+                                <small>{formatDate(comment.createdAt)}</small>
+                              </p>
+                            </div>
+                          ))}
+
                         </div>
-
-                      </div>
+                      ) : (
+                        <div className="post-list-comment no-cmt"></div>
+                      )}
                       <div className="post-comment">
                         <form action="">
                           <textarea
+                            placeholder="Enter your comment..."
                             name=""
                             id=""
                             value={commentsByPost[p._id] || ''}
@@ -166,6 +233,8 @@ export default function HomePage() {
           <ListToDo />
         </div>
       </div>
+
+
     </div >
   );
 }

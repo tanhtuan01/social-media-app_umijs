@@ -5,6 +5,7 @@ import { HomeOutlined, SearchOutlined, MessageOutlined, SettingOutlined, Unorder
 import React, { useState } from 'react';
 import DocsPage from '../pages/docs';
 import ListToDo from '@/pages/todo/list';
+import { Footer } from '@/pages/footer';
 
 
 export default function Layout() {
@@ -29,7 +30,7 @@ export default function Layout() {
               <div className="form-search">
                 <form action="">
                   <div className='form-group-search'>
-                    <input type="text" placeholder='Enter text to search' />
+                    <input type="text" placeholder='Enter user name to search' />
                     <button type='button'><SearchOutlined /></button>
                   </div>
 
@@ -75,12 +76,14 @@ export default function Layout() {
                     </p>
                     {showSettingOption && (
                       <div className='settings-option'>
+
                         <div className='item'>
-                          <a href="">Logout</a>
+                          <a href="profile">Profile</a>
                         </div>
                         <div className='item'>
-                          <a href="">Logout</a>
+                          <a href="">Todo deleted</a>
                         </div>
+
                         <div className='item'>
                           <a href="">Logout</a>
                         </div>
@@ -110,7 +113,7 @@ export default function Layout() {
       </div>
 
       <div className='footer'>
-
+        <Footer />
       </div>
 
     </div>

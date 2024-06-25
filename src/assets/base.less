@@ -11,9 +11,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Roboto-Regular, Helvetica Neue, Helvetica, Tahoma, Arial, Sans-serif;
+    font-size: 14px;
 }
 
 .row {
+
     width: 1500px;
     margin: auto;
     display: flex;
@@ -27,6 +30,22 @@ ul li {
 
 a {
     text-decoration: none;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.title {
+    margin-bottom: 10px;
+}
+
+small {
+    font-size: 12px !important;
 }
 
 .btn {
@@ -110,4 +129,49 @@ textarea {
 
 .modal .cancel-button {
     background-color: red;
+}
+
+
+.modal {
+
+    .modal-body {
+
+        p {
+            padding: 10px 0;
+            text-align: center;
+        }
+    }
+
+    .modal-form {
+
+        form {
+
+            .form-group {
+                padding: 5px 0;
+                width: 100%;
+
+                input,
+                select,
+                textarea {
+                    padding: 5px 10px;
+                    display: inline-block;
+                    width: 100%;
+                    margin-right: 5px;
+                    border-radius: 3px;
+                    outline: none;
+                    border: 1px solid #ccc;
+                }
+
+                label {
+                    display: block;
+                }
+            }
+        }
+
+        .type-priority,
+        .time {
+            justify-content: space-between;
+            display: flex;
+        }
+    }
 }

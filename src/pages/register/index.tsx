@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 
 export default function RegisterHomePage() {
     const userApi = apiUser();
-    const text = userApi.text;
     const create = userApi.create
 
     const currentYear = new Date().getFullYear();
@@ -52,7 +51,7 @@ export default function RegisterHomePage() {
     };
 
     let isValidDate = false;
-    let textData = userApi.text();
+
     function submitLogin() {
         console.log('Form submitted');
         console.log(`Selected Day: ${day}`);
@@ -60,7 +59,6 @@ export default function RegisterHomePage() {
         console.log(`Selected Year: ${year}`);
         // console.log(`Username: ${username}, Password: ${password}`);
 
-        console.log(`text: `, JSON.stringify(text()));
         // check date
         checkDate()
 
@@ -197,12 +195,7 @@ export default function RegisterHomePage() {
     return (
         <div className='body-sign'>
             <ToastContainer />
-            {textData.map((item, index) => (
-                <div key={index}>
-                    <p>Text 1: {item.txt}</p>
-                    <p>Text 2: {item.txt2}</p>
-                </div>
-            ))}
+
             <div className='content'>
 
                 <div className="information">

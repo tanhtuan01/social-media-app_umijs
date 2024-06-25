@@ -72,5 +72,55 @@ export const apiTodo = () => {
         }
 
     }
-    return { create, list, deleteTodo };
+
+
+    const getTodo = async (todoid: string) => {
+        try {
+            const response = await fetch(`http://localhost:3000/todo/get/${todoid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                const error = await response.json();
+                return { error: 'Error' };
+            }
+        } catch (error) {
+            return { error: 'Error' };
+        }
+    }
+
+    const updateTodo = async (todoid: string, todo: object) => {
+        try {
+            const response = await fetch(`http://localhost:3000/todo/update/${todoid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(todo),
+            })
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status === 500) {
+                return { err: 'err' }
+            } else {
+                const error = await response.json();
+                return { error: error };
+            }
+        } catch (error) {
+            return { error: 'Error' };
+        }
+
+    }
+
+
+    return { create, list, deleteTodo, getTodo, updateTodo };
+
+
 }

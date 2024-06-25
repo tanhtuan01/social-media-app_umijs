@@ -12,6 +12,7 @@ export default defineConfig({
     { path: "/home", redirect: "/" },
     { path: "/todo", component: "@/pages/todo" },
     { path: "/logout", component: "@/pages/logout" },
+    { path: "/profile", component: "@/pages/profile" },
   ],
   npmClient: 'pnpm',
 });

@@ -27,6 +27,9 @@ export default function ToDoHomePage() {
     const [taskEndTimeClick, setTaskEndTimeClick] = useState(false);
     const [twoDateValid, setTwoDateValid] = useState(false);
 
+    const [refreshTodoList, setRefreshTodoList] = useState(false);
+
+
     function submitCreateTodo() {
 
         console.log('Form submitted');
@@ -59,6 +62,7 @@ export default function ToDoHomePage() {
             toast.success('Create todo successfully');
             setTaskStartTimeClick(false)
             setTaskEndTimeClick(false)
+            setRefreshTodoList((prevState) => !prevState);
         } else if (result.error) {
             toast.error(result.error);
         } else {
@@ -111,14 +115,14 @@ export default function ToDoHomePage() {
                 <div className='todo-page'>
 
                     <ToastContainer autoClose={3000} />
-                    <div className="todo-nav">
+                    {/* <div className="todo-nav">
                         <ul>
                             <li>
                                 <a href="">List</a>
                             </li>
 
                         </ul>
-                    </div>
+                    </div> */}
 
                     <div className="form-add-todo">
                         <form action="">
@@ -180,7 +184,7 @@ export default function ToDoHomePage() {
                 </div>
             </div>
             <div className="todo">
-                <ListToDo />
+                <ListToDo onRefresh={refreshTodoList} />
             </div>
         </div>
 

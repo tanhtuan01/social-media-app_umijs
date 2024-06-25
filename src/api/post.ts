@@ -76,7 +76,29 @@ export const apiPost = () => {
             return { error }
         }
     }
-    return { create, userPost, getAll }
+
+    const likePost = async (postDTO: object) => {
+        try {
+            const response = await fetch('http://localhost:3000/like/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(postDTO),
+            })
+            if (response.ok) {
+                return await response.json()
+            } else if (response.status === 500) {
+                return { error: 'Internal Server Error' }
+            } else {
+                return { error: 'Error when like post' }
+            }
+        } catch (error) {
+            return { error }
+        }
+    }
+    return { create, userPost, getAll, likePost }
 
 
 }
